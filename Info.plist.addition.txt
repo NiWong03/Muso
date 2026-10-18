@@ -1,0 +1,1 @@
+// YouTubeKit requires no API key or extra Info.plist configuration.

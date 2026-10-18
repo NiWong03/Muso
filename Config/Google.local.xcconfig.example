@@ -1,0 +1,4 @@
+GOOGLE_CLIENT_ID = YOUR_IOS_CLIENT_ID.apps.googleusercontent.com
+GOOGLE_REVERSED_CLIENT_ID = com.googleusercontent.apps.YOUR_IOS_CLIENT_ID
+
+// Copy to Google.local.xcconfig (ignored by Git). Native OAuth client IDs are public identifiers; do not add client secrets or API keys.

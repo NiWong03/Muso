@@ -1,0 +1,1 @@
+Info.plist receives the public Google OAuth client ID and callback scheme from Config/Google.xcconfig. Set personal values in ignored Config/Google.local.xcconfig. API keys, client secrets, passwords and access/refresh tokens must not be included in Info.plist or source control.

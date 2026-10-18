@@ -1,0 +1,4 @@
+// Shared defaults. Put real values in Google.local.xcconfig beside this file.
+GOOGLE_CLIENT_ID =
+GOOGLE_REVERSED_CLIENT_ID = com.googleusercontent.apps.muso-unconfigured
+#include? "Google.local.xcconfig"

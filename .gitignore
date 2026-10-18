@@ -1,0 +1,33 @@
+# Local credentials and configuration
+.env
+.env.*
+!.env.example
+!.env.template
+*.local.xcconfig
+Config/Config.xcconfig
+GoogleService-Info.plist
+*credentials*.json
+*service-account*.json
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.mobileprovision
+*.provisionprofile
+
+# Local Xcode state and build outputs
+.DS_Store
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcarchive
+*.ipa
+*.dSYM/
+*.dSYM.zip
+.swiftpm/
+.build/
+
+# Local generated branding exports
+/output/

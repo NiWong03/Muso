@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import AppIntents
+import GoogleSignIn
 
 @main
 struct MusoStarterApp: App {
+    init() {
+        AudioSessionManager.configureForPlayback()
+        MusoAppShortcuts.updateAppShortcutParameters()
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
+                .onOpenURL { GIDSignIn.sharedInstance.handle($0) }
         }
     }
 }

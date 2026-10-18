@@ -1,0 +1,22 @@
+{
+  "images": [
+    {
+      "idiom": "universal",
+      "filename": "muso-logo-default.png"
+    },
+    {
+      "idiom": "universal",
+      "filename": "muso-logo-dark.png",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

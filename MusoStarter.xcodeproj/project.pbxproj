@@ -6,13 +6,34 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AA1100000000000000000001 /* YouTubeKit in Frameworks */ = {isa = PBXBuildFile; productRef = AA1100000000000000000002 /* YouTubeKit */; };
+		BB2200000000000000000002 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BB2200000000000000000003 /* GoogleSignIn */; };
+		BB2200000000000000000004 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BB2200000000000000000005 /* GoogleSignInSwift */; };
+		CC3300000000000000000001 /* YouTubeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = CC3300000000000000000002 /* YouTubeSDK */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		0F793B3E2FBC432E007ABD7B /* MusoStarter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusoStarter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB2200000000000000000001 /* Config/Google.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Google.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0F69AEE23058F7DC004C44FB /* Exceptions for "MusoStarter" folder in "MusoStarter" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0F793B3D2FBC432E007ABD7B /* MusoStarter */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0F793B402FBC432E007ABD7B /* MusoStarter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0F69AEE23058F7DC004C44FB /* Exceptions for "MusoStarter" folder in "MusoStarter" target */,
+			);
 			path = MusoStarter;
 			sourceTree = "<group>";
 		};
@@ -23,6 +44,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC3300000000000000000001 /* YouTubeSDK in Frameworks */,
+				AA1100000000000000000001 /* YouTubeKit in Frameworks */,
+				BB2200000000000000000002 /* GoogleSignIn in Frameworks */,
+				BB2200000000000000000004 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -34,6 +59,7 @@
 			children = (
 				0F793B402FBC432E007ABD7B /* MusoStarter */,
 				0F793B3F2FBC432E007ABD7B /* Products */,
+				0FDB4722305F4F7700DE4ED1 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +69,14 @@
 				0F793B3E2FBC432E007ABD7B /* MusoStarter.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0FDB4722305F4F7700DE4ED1 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				BB2200000000000000000001 /* Config/Google.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +99,10 @@
 			);
 			name = MusoStarter;
 			packageProductDependencies = (
+				CC3300000000000000000002 /* YouTubeSDK */,
+				BB2200000000000000000003 /* GoogleSignIn */,
+				BB2200000000000000000005 /* GoogleSignInSwift */,
+				AA1100000000000000000002 /* YouTubeKit */,
 			);
 			productName = MusoStarter;
 			productReference = 0F793B3E2FBC432E007ABD7B /* MusoStarter.app */;
@@ -78,7 +116,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					0F793B3D2FBC432E007ABD7B = {
 						CreatedOnToolsVersion = 26.2;
@@ -94,6 +132,11 @@
 			);
 			mainGroup = 0F793B352FBC432E007ABD7B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CC3300000000000000000003 /* XCRemoteSwiftPackageReference "YouTubeSDK" */,
+				BB2200000000000000000006 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				AA1100000000000000000003 /* XCRemoteSwiftPackageReference "YouTubeKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0F793B3F2FBC432E007ABD7B /* Products */;
 			projectDirPath = "";
@@ -160,6 +203,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JZTSJ85Z5M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -183,6 +227,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -223,6 +268,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JZTSJ85Z5M;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -239,6 +285,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -246,15 +293,20 @@
 		};
 		0F793B4A2FBC4330007ABD7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB2200000000000000000001 /* Config/Google.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DH3JGLD4L5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MusoStarter/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIBackgroundModes = audio;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -263,8 +315,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				PRODUCT_BUNDLE_IDENTIFIER = niwong.MusoStarter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -277,15 +331,20 @@
 		};
 		0F793B4B2FBC4330007ABD7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB2200000000000000000001 /* Config/Google.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DH3JGLD4L5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MusoStarter/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIBackgroundModes = audio;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -294,8 +353,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = niwong.MusoStarter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -328,6 +389,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA1100000000000000000003 /* XCRemoteSwiftPackageReference "YouTubeKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alexeichhorn/YouTubeKit";
+			requirement = {
+				kind = revision;
+				revision = e5b7d0396ce12bf3444f0d209e8436c83373b7af;
+			};
+		};
+		BB2200000000000000000006 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 9.2.0;
+			};
+		};
+		CC3300000000000000000003 /* XCRemoteSwiftPackageReference "YouTubeSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/atpugvaraa/YouTubeSDK.git";
+			requirement = {
+				kind = revision;
+				revision = fa9bd98bafe98cd8d0918d22382001d10cdbe375;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA1100000000000000000002 /* YouTubeKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA1100000000000000000003 /* XCRemoteSwiftPackageReference "YouTubeKit" */;
+			productName = YouTubeKit;
+		};
+		BB2200000000000000000003 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB2200000000000000000006 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		BB2200000000000000000005 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB2200000000000000000006 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		CC3300000000000000000002 /* YouTubeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC3300000000000000000003 /* XCRemoteSwiftPackageReference "YouTubeSDK" */;
+			productName = YouTubeSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0F793B362FBC432E007ABD7B /* Project object */;
 }
