@@ -1,5 +1,5 @@
 # Muso
-
+### * Disclaimer: For Personal Use Only *
 Open `MusoStarter.xcodeproj` and run the MusoStarter scheme.
 
 Discovery runs natively through [YouTubeSDK](https://github.com/atpugvaraa/YouTubeSDK), pinned to revision `fa9bd98bafe98cd8d0918d22382001d10cdbe375`. No Python service or YouTube Data API v3 key is required. Google sign-in is optional; see [GOOGLE_SETUP.md](GOOGLE_SETUP.md).
