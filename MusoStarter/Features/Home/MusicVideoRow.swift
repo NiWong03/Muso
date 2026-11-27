@@ -15,7 +15,7 @@ struct MusicVideoRow: View {
                     .lineLimit(compact ? nil : 2)
                     .fixedSize(horizontal: false, vertical: true)
 
-                Text(video.channelTitle)
+                ArtistName(video: video)
                     .font(compact ? .caption : .subheadline)
                     .lineLimit(1)
                     .foregroundStyle(.secondary)
@@ -24,5 +24,16 @@ struct MusicVideoRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.vertical, 4)
+    }
+}
+
+/// Shared artist presentation keeps saved copies and active screens in sync.
+struct ArtistName: View {
+    let video: MusicVideo
+    @ObservedObject private var metadata = VideoArtistResolver.shared
+
+    var body: some View {
+        Text(metadata.artist(for: video))
+            .task(id: video.id) { await metadata.resolveForDisplay(video) }
     }
 }

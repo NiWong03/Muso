@@ -2,6 +2,7 @@ import SwiftUI
 
 struct NowPlayingView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showsLyrics = false
     @State private var queueEditMode: EditMode = .inactive
     @ObservedObject var library: LibraryStore
     @ObservedObject var player: AVPlayerService
@@ -23,7 +24,7 @@ struct NowPlayingView: View {
                             .frame(maxWidth: .infinity)
                         VStack(alignment: .leading, spacing: 6) {
                             Text(entry.video.title).font(.title2.bold()).lineLimit(3)
-                            Text(entry.video.channelTitle).lineLimit(2).foregroundStyle(.secondary)
+                            ArtistName(video: entry.video).lineLimit(2).foregroundStyle(.secondary)
                         }.frame(maxWidth: .infinity, alignment: .leading)
                         if player.isPreparing { ProgressView("Preparing audio…") }
                         if let error = player.errorMessage {
@@ -45,7 +46,14 @@ struct NowPlayingView: View {
                             Button { player.next() } label: { Image(systemName: "forward.end.fill") }
                                 .disabled(!player.queueStore.hasNext && (!player.queueStore.autoplay || player.isPreparing)).accessibilityLabel("Next track")
                         }.font(.title2).buttonStyle(.plain)
-                        AddToPlaylistMenu(library: library, track: entry.video, showsTitle: true)
+                        HStack(spacing: 24) {
+                            AddToPlaylistMenu(library: library, track: entry.video, showsTitle: true)
+                            Button { showsLyrics = true } label: {
+                                Label("Lyrics", systemImage: "text.quote")
+                            }
+                            .buttonStyle(.bordered)
+                            .accessibilityHint("Opens lyrics for the current track")
+                        }
                     }.frame(maxWidth: 560).frame(maxWidth: .infinity).padding(20)
                         .listRowInsets(EdgeInsets()).listRowSeparator(.hidden).listRowBackground(Color.clear)
                     queue
@@ -53,6 +61,16 @@ struct NowPlayingView: View {
                     ContentUnavailableView("Nothing queued", systemImage: "music.note.list", description: Text("Play a mix from Home or choose a song in Search."))
                 }
             }.environment(\.editMode, $queueEditMode).listStyle(.plain).scrollContentBackground(.hidden).background(HomePalette.paper).navigationTitle("Now Playing").navigationBarTitleDisplayMode(.inline)
+                .sheet(isPresented: $showsLyrics) {
+                    if let entry = player.queueStore.current {
+                        LyricsView(video: entry.video)
+                            .id(entry.video.id)
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.visible)
+                    } else {
+                        ContentUnavailableView("Nothing playing", systemImage: "music.note")
+                    }
+                }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button { dismiss() } label: { Image(systemName: "chevron.down") }

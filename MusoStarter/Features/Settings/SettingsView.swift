@@ -5,6 +5,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var auth: GoogleAuthStore
     @ObservedObject var history: ListeningHistoryStore
+    @AppStorage(LyricaService.serverKey) private var lyricaServer = LyricaService.defaultServer
     var body: some View {
         NavigationStack {
             Form {
@@ -23,6 +24,15 @@ struct SettingsView: View {
                     }
                     if auth.isBusy { ProgressView() }
                     if let error = auth.errorMessage { Text(error).font(.footnote).foregroundStyle(.red) }
+                }
+                Section {
+                    TextField("Server URL", text: $lyricaServer)
+                        .keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled()
+                        .accessibilityLabel("Lyrica server URL")
+                } header: {
+                    Text("Lyrics")
+                } footer: {
+                    Text("Use your computer’s network address on iPhone, or 127.0.0.1 in the simulator. Keep Lyrica running to fetch lyrics.")
                 }
                 if auth.isSignedIn {
                     Section("Listening history") {

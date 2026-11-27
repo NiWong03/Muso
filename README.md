@@ -18,3 +18,9 @@ Run `sh Tests/run.sh` from this directory. Offline checks cover text entities, s
 On a device, verify guest charts → search/suggestions → play → expand/minimize → queue completion/autoplay → Control Center → Google sign-in → personalized Home/likes → sign out. Authentication, private API availability, and background playback need live device verification.
 
 Dependencies: YouTubeSDK (above), [Google Sign-In](https://github.com/google/GoogleSignIn-iOS) 9.2.0, and [YouTubeKit](https://github.com/alexeichhorn/YouTubeKit) revision `e5b7d0396ce12bf3444f0d209e8436c83373b7af`.
+
+### Lyrics with Lyrica
+
+Tap Lyrics in Now Playing to open a scrollable popup. It fetches lyrics from `GET /lyrics/?artist=…&song=…` for the current track and updates when the track changes while open. Muso cleans common YouTube title decorations, encodes query parameters, and caches successful results in memory. When an artist is missing or labeled YouTube/YouTube Music, Muso retrieves the upload channel through YouTube oEmbed; saved tracks also get this recovery when opening lyrics. Recovered artist names are saved locally and shared across track displays, including saved playlists, history, the queue, the mini player, lyrics, and Now Playing. The upload channel may differ from the artist on reposts. Lyrics are displayed as returned; this integration does not synchronize lines with playback.
+
+Start Lyrica with `source venv/bin/activate` and `python3 run.py` in your Lyrica checkout. In Muso’s account/settings screen, set the Lyrics server URL. The simulator defaults to `http://127.0.0.1:9999`; iPhone defaults to the demonstrated `http://192.168.7.99:9999` and must share the server’s network. Update this address if your computer’s IP changes. Allow local-network access when prompted. The server must stay running; use a reachable HTTPS deployment for use away from your local network.

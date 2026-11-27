@@ -11,9 +11,13 @@ final class YouTubeService: YouTubeServing {
             throw YouTubeServiceError.metadataUnavailable
         }
         try Task.checkCancellation()
-        // YouTubeKit does not expose the channel name in its public metadata.
-        return MusicVideo(id: id, title: metadata.title, channelTitle: "YouTube",
-                          thumbnailURL: metadata.thumbnail?.url)
+        let video = MusicVideo(id: id, title: metadata.title, channelTitle: "YouTube",
+                               thumbnailURL: metadata.thumbnail?.url)
+        do { return try await VideoArtistResolver.shared.resolve(video) }
+        catch {
+            try Task.checkCancellation()
+            return video
+        }
     }
 
     func playableTrack(for video: MusicVideo) async throws -> PlayableTrack {

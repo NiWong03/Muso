@@ -84,7 +84,7 @@ struct HomeView: View {
                                             .padding(12)
                                     }
                                 Text(video.title).font(.headline).lineLimit(2)
-                                Text(video.channelTitle).font(.subheadline).foregroundStyle(.secondary).lineLimit(1)
+                                ArtistName(video: video).font(.subheadline).foregroundStyle(.secondary).lineLimit(1)
                             }.frame(width: 264, alignment: .leading)
                         }
                         .buttonStyle(.plain)
@@ -107,7 +107,7 @@ struct HomeView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 MusicArtwork(url: video.thumbnailURL).frame(width: 158, height: 158)
                                 Text(video.title).font(.subheadline.weight(.medium)).lineLimit(2)
-                                Text(video.channelTitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                                ArtistName(video: video).font(.caption).foregroundStyle(.secondary).lineLimit(1)
                             }.frame(width: 158, alignment: .leading)
                         }.buttonStyle(.plain).contextMenu { queueActions(video) }
                     }
@@ -166,7 +166,7 @@ struct HomeView: View {
                                             .background(.black.opacity(0.65), in: Capsule())
                                             .padding(10)
                                     }
-                                Text(seed.channelTitle.isEmpty ? seed.title : seed.channelTitle)
+                                ArtistName(video: seed)
                                     .font(.subheadline.weight(.semibold)).lineLimit(2)
                                 Text("Inspired by \(seed.title)").font(.caption).foregroundStyle(.secondary).lineLimit(2)
                             }.frame(width: 190, alignment: .leading)
