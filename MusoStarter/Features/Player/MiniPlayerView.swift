@@ -11,7 +11,10 @@ struct MiniPlayerView: View {
                         MusicArtwork(url: video.thumbnailURL).frame(width: 44, height: 44)
                         VStack(alignment: .leading, spacing: 3) {
                             Text(video.title).font(.subheadline.weight(.semibold)).lineLimit(1)
-                            Text(player.isPreparing ? "Preparing audio…" : video.channelTitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                            Group {
+                                if player.isPreparing { Text("Preparing audio…") }
+                                else { ArtistName(video: video) }
+                            }.font(.caption).foregroundStyle(.secondary).lineLimit(1)
                         }
                         Spacer()
                     }.contentShape(Rectangle())

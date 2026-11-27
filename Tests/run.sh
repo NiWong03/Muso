@@ -15,3 +15,7 @@ swiftc -module-cache-path "$test_dir/cache" -o "$test_dir/tests" \
   MusoStarter/Core/Player/PlayerModels.swift \
   MusoStarter/Features/Search/SearchViewModel.swift Tests/YouTubeLinkTests.swift Tests/YouTubeSearchTests.swift Tests/PersonalizationTests.swift
 "$test_dir/tests"
+swiftc -module-cache-path "$test_dir/cache" -o "$test_dir/lyrics-tests" \
+  MusoStarter/Core/YouTubeModels.swift MusoStarter/Core/Player/PlayerModels.swift \
+  MusoStarter/Core/LyricaService.swift MusoStarter/Core/VideoArtistResolver.swift Tests/LyricaTests.swift
+"$test_dir/lyrics-tests"

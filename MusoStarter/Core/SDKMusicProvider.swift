@@ -14,16 +14,16 @@ final class SDKMusicProvider: YouTubeMusicProviding {
     func search(_ query: String) async throws -> [MusicVideo] {
         let songs = try await music.search(query)
         try Task.checkCancellation()
-        return unique(songs.map {
+        return try await VideoArtistResolver.shared.resolveMissing(unique(songs.map {
             MusicVideo(id: $0.videoId, title: $0.title,
                        channelTitle: $0.artistsDisplay.isEmpty ? "YouTube Music" : $0.artistsDisplay,
                        thumbnailURL: $0.thumbnailURL)
-        })
+        }))
     }
 
     func searchCatalog(_ query: String) async throws -> YouTubeSearchPage {
         let data = try await request("search", body: ["query": query])
-        return YouTubeSearchPage(videos: try MusicResponseParser.videos(from: data), nextPageToken: nil,
+        return YouTubeSearchPage(videos: try await VideoArtistResolver.shared.resolveMissing(MusicResponseParser.videos(from: data)), nextPageToken: nil,
                                  collections: try MusicCollectionParser.collections(from: data))
     }
 
@@ -34,7 +34,7 @@ final class SDKMusicProvider: YouTubeMusicProviding {
         repeat {
             let page = try MusicCollectionParser.tracks(from: await request("browse", body: body))
             tracks += page.videos
-            guard let token = page.continuation else { return tracks }
+            guard let token = page.continuation else { return try await VideoArtistResolver.shared.resolveMissing(tracks) }
             guard tokens.insert(token).inserted else { throw MusicDiscoveryError.invalidResponse }
             body = ["continuation": token]
             try Task.checkCancellation()
@@ -51,9 +51,9 @@ final class SDKMusicProvider: YouTubeMusicProviding {
     func trending() async throws -> [MusicVideo] {
         let items = try await charts.getTopSongs(country: Locale.current.region?.identifier ?? "US")
         try Task.checkCancellation()
-        return Array(unique(items.map {
+        return try await VideoArtistResolver.shared.resolveMissing(Array(unique(items.map {
             MusicVideo(id: $0.id, title: $0.title, channelTitle: $0.subtitle, thumbnailURL: $0.thumbnailURL)
-        }).prefix(30))
+        }).prefix(30)))
     }
 
     func likedMusic() async throws -> [MusicVideo] {
@@ -67,12 +67,12 @@ final class SDKMusicProvider: YouTubeMusicProviding {
     func radio(videoID: String) async throws -> [MusicVideo] {
         let data = try await request("next", body: ["videoId": videoID, "playlistId": "RDAMVM" + videoID,
                                                     "isAudioOnly": true, "enablePersistentPlaylistPanel": true])
-        return try MusicResponseParser.videos(from: data)
+        return try await VideoArtistResolver.shared.resolveMissing(MusicResponseParser.videos(from: data))
     }
 
     private func browse(_ id: String) async throws -> [MusicVideo] {
         let data = try await request("browse", body: ["browseId": id], requiresSignIn: true)
-        return try MusicResponseParser.videos(from: data)
+        return try await VideoArtistResolver.shared.resolveMissing(MusicResponseParser.videos(from: data))
     }
 
     private func request(_ endpoint: String, body: [String: Any], requiresSignIn: Bool = false) async throws -> Data {

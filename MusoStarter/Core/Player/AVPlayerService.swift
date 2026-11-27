@@ -58,7 +58,7 @@ final class AVPlayerService: PlayerService, ObservableObject {
             }
         }
         configureRemoteCommands()
-        timeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 600), queue: .main) { [weak self] _ in
+        timeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600), queue: .main) { [weak self] _ in
             Task { @MainActor [weak self] in self?.updateNowPlaying() }
         }
         sessionObservers.append(NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] notification in
@@ -350,7 +350,7 @@ final class AVPlayerService: PlayerService, ObservableObject {
         center.changePlaybackPositionCommand.isEnabled = available && duration > 0
         var info: [String: Any] = [
             MPMediaItemPropertyTitle: track.title,
-            MPMediaItemPropertyArtist: track.artist,
+            MPMediaItemPropertyArtist: VideoArtistResolver.shared.artist(for: MusicVideo(id: track.id, title: track.title, channelTitle: track.artist, thumbnailURL: track.artworkURL)),
             MPNowPlayingInfoPropertyElapsedPlaybackTime: elapsedTime,
             MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? player.rate : 0,
             MPNowPlayingInfoPropertyDefaultPlaybackRate: 1.0,
