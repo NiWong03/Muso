@@ -63,7 +63,7 @@ struct NowPlayingView: View {
             }.environment(\.editMode, $queueEditMode).listStyle(.plain).scrollContentBackground(.hidden).background(HomePalette.paper).navigationTitle("Now Playing").navigationBarTitleDisplayMode(.inline)
                 .sheet(isPresented: $showsLyrics) {
                     if let entry = player.queueStore.current {
-                        LyricsView(video: entry.video)
+                        LyricsView(video: entry.video, timeline: timeline)
                             .id(entry.video.id)
                             .presentationDetents([.medium, .large])
                             .presentationDragIndicator(.visible)

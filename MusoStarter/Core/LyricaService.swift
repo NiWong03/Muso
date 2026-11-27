@@ -20,12 +20,54 @@ struct LyricsQuery: Hashable {
     }
 }
 
+struct TimedLyricWord: Decodable {
+    let word: String
+    let start: Double
+    let end: Double
+}
+
+struct TimedLyricLine: Decodable {
+    let text: String
+    let startTime: Double
+    let endTime: Double?
+    let words: [TimedLyricWord]?
+    enum CodingKeys: String, CodingKey {
+        case text, words
+        case startTime = "start_time", endTime = "end_time"
+    }
+}
+
 struct LyricaLyrics: Decodable {
     let source: String
     let artist: String
     let title: String
     let lyrics: String
     let hasTimestamps: Bool
+    let timedLines: [TimedLyricLine]
+    enum CodingKeys: String, CodingKey {
+        case source, artist, title, lyrics, hasTimestamps
+        case timedLines = "timed_lyrics"
+    }
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        source = try values.decode(String.self, forKey: .source)
+        artist = try values.decode(String.self, forKey: .artist)
+        title = try values.decode(String.self, forKey: .title)
+        lyrics = try values.decodeIfPresent(String.self, forKey: .lyrics) ?? ""
+        hasTimestamps = try values.decodeIfPresent(Bool.self, forKey: .hasTimestamps) ?? false
+        let lines = (try? values.decode([TimedLyricLine].self, forKey: .timedLines)) ?? []
+        timedLines = hasTimestamps ? lines.filter { $0.startTime.isFinite && $0.startTime >= 0 }
+            .sorted { $0.startTime < $1.startTime } : []
+    }
+    var staticText: String { lyrics.isEmpty ? timedLines.map(\.text).joined(separator: "\n") : lyrics }
+
+    func activeLine(at seconds: Double) -> Int? {
+        guard seconds.isFinite else { return nil }
+        let milliseconds = seconds * 1000
+        guard let index = timedLines.lastIndex(where: { $0.startTime <= milliseconds }) else { return nil }
+        if let end = timedLines[index].endTime, end > timedLines[index].startTime, milliseconds >= end { return nil }
+        return index
+    }
 }
 
 enum LyricaError: LocalizedError {
@@ -60,7 +102,7 @@ final class LyricaService {
 
     init(session: URLSession = .shared) { self.session = session }
 
-    func request(query: LyricsQuery, server: String) throws -> URLRequest {
+    func request(query: LyricsQuery, server: String, timestamps: Bool = true) throws -> URLRequest {
         guard !query.artist.isEmpty, !query.song.isEmpty else { throw LyricaError.missingTrack }
         guard var components = URLComponents(string: server.trimmingCharacters(in: .whitespacesAndNewlines)),
               ["http", "https"].contains(components.scheme?.lowercased() ?? ""),
@@ -68,7 +110,9 @@ final class LyricaService {
               components.user == nil, components.password == nil else { throw LyricaError.invalidServer }
         components.path = components.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         components.path = "/" + (components.path.isEmpty ? "" : components.path + "/") + "lyrics/"
-        components.queryItems = [URLQueryItem(name: "artist", value: query.artist), URLQueryItem(name: "song", value: query.song)]
+        components.queryItems = [URLQueryItem(name: "artist", value: query.artist), URLQueryItem(name: "song", value: query.song),
+                                 URLQueryItem(name: "timestamps", value: timestamps ? "true" : "false"),
+                                 URLQueryItem(name: "word", value: timestamps ? "true" : "false")]
         components.fragment = nil
         guard let url = components.url else { throw LyricaError.invalidServer }
         var request = URLRequest(url: url)
@@ -81,6 +125,20 @@ final class LyricaService {
         let request = try request(query: query, server: server)
         let key = request.url!
         if let cached = cache[key] { return cached }
+        let result: LyricaLyrics
+        do {
+            result = try await fetch(request)
+        } catch {
+            try Task.checkCancellation()
+            // Timed-only searches can miss a track that has plain lyrics.
+            result = try await fetch(self.request(query: query, server: server, timestamps: false))
+        }
+        if cache.count >= 100 { cache.removeAll() }
+        cache[key] = result
+        return result
+    }
+
+    private func fetch(_ request: URLRequest) async throws -> LyricaLyrics {
         let (data, response) = try await session.data(for: request)
         try Task.checkCancellation()
         guard let response = response as? HTTPURLResponse else { throw LyricaError.unavailable }
@@ -88,9 +146,7 @@ final class LyricaService {
         guard (200..<300).contains(response.statusCode) else { throw LyricaError.server(response.statusCode) }
         let envelope = try JSONDecoder().decode(Envelope.self, from: data)
         guard envelope.status == "success", let result = envelope.data,
-              !result.lyrics.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw LyricaError.unavailable }
-        if cache.count >= 100 { cache.removeAll() }
-        cache[key] = result
+              !result.staticText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw LyricaError.unavailable }
         return result
     }
 }
